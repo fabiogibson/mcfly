@@ -169,9 +169,14 @@ impl<'a> Interface<'a> {
         .unwrap();
         write!(
             screen,
-            "{}{}",
+            "{}{}{}",
             cursor::Goto(self.input.cursor as u16 + 3, prompt_line_index),
-            cursor::Show
+            cursor::Show,
+            if self.in_vim_insert_mode {
+                cursor::BlinkingBar.to_string()
+            } else {
+                cursor::BlinkingBlock.to_string()
+            }
         )
         .unwrap();
         screen.flush().unwrap();
